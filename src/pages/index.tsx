@@ -31,7 +31,7 @@ export default function Home(props: HomeProps) {
       </Head>
       <Layout>
         <div className={`${inter.className}`}><section className={`d-flex justify-content-center align-items-center mt-5`}>
-          <h3>WEiKIS</h3>
+          <h3>WEiKIS NETWORK</h3>
           <Image src={"/favicon.ico"} alt='' width={32} height={32} />
         </section>
         </div>
