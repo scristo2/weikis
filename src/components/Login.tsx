@@ -6,6 +6,7 @@ import translateLoginError from "../../public/lang/home/login/errorLoginText.jso
 import { emailFormat } from "@/lib/patterns";
 import _fetch from "isomorphic-fetch";
 import { useRouter } from "next/router";
+
 interface LoginProps {
 
     locale: string
@@ -50,13 +51,14 @@ const Login: NextPage<LoginProps> = (props) => {
 
                 throw Error("email invalid");
             }
+            
 
 
 
             const res = await _fetch("/api/login/login", {
 
                 method: "POST",
-                body: JSON.stringify({ email: "", password: password, keepSession: checkedKeepSession }),
+                body: JSON.stringify({ email : emailOrUsername, password : password, checkedsession : checkedKeepSession }),
                 headers: {
 
                     'Content-Type': 'application/json'
@@ -69,7 +71,7 @@ const Login: NextPage<LoginProps> = (props) => {
             if (res.ok) {
 
                 const data = await res.json()
-                    .then((result: { status: string, messageError: string }) => result);
+                    .then((result: { status: string, messageError: string, message : [] }) => result);
 
                 console.log(data);
 
@@ -102,7 +104,7 @@ const Login: NextPage<LoginProps> = (props) => {
 
 
                 default:
-                    setTextErrorMessage(e.toString());
+                    setTextErrorMessage( e?.message);
                     break;
             }
 
@@ -115,7 +117,7 @@ const Login: NextPage<LoginProps> = (props) => {
 
     return (<form onSubmit={handleSubmitForm} className={`col-md-8 col-lg-6 col-xl-5 mt-5`}>
         <div className={`mt-3`}>
-            <input type="text" className={`form-control`} value={emailOrUsername} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            <input type="text" className={`form-control`} autoComplete={"on"} value={emailOrUsername} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setEmailOrUsername(e.target.value);
                 setVisibleErrorMessage(false);
                 {/*@ts-ignore*/ }

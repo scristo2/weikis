@@ -1,13 +1,12 @@
+import _fetch from "isomorphic-fetch";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { setCookie } from 'nookies';
-import { verifyEncriptedPassword, encriptPassword } from "@/lib/encriptPasswords";
-
-
+import { createToken } from "@/lib/jwt";
 
 type Data = {
 
     status: string,
-    messageError: string
+    messageError: string,
+    message: any
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
@@ -16,18 +15,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     try {
 
-        if (!req.body?.email || !req.body?.password || typeof req.body?.keepSession !== "boolean") {
+        if (!req.body?.email || !req.body?.password || typeof req.body?.checkedsession !== "boolean") {
 
-            throw new Error("El campo del email o de la contraseña estan vacios");
+            throw new Error("Se necesita el token");
         }
 
-
-        return res.status(200).json({ status: "ok", messageError: "" });
+        const token = createToken({email : req.body?.email, password : req.body?.password, keepsession : req.body?.checkedKeepSession});
+        
+        console.log(token);
+      
+        return res.status(200).json({ status: "ok", messageError: "", message: token });
 
 
     } catch (e: any) {
-
-        return res.status(500).json({ status: "error", messageError: e?.message });
+        console.log(e);
+        return res.status(500).json({ status: "error", messageError: e?.message, message: [] });
     }
 }
 
