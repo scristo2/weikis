@@ -1,0 +1,39 @@
+.divContent{
+
+    margin-bottom: 70px;
+    
+   
+    
+}
+
+@media (min-width: 1200px) {
+
+    .bar {
+
+        width: 300px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        background-color: #f0f0f0;
+        /* Gris claro */
+        transition: background-color 0.3s ease;
+       
+
+
+    }
+
+    .divContent{
+
+        margin-bottom: 0;
+        margin-top: 70px;
+    }
+
+
+    .divRightBar{
+
+        margin-top: 80px;
+    }
+
+
+}

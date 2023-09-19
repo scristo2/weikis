@@ -1,0 +1,24 @@
+{
+
+    "erroronAuthStateChanged" : {
+
+         "es" : "ha ocurrido un error al verificar el estado de sesion del usuario",
+         "en" : "An error occurred while verifying the user's session status",
+         "fr" : "Une erreur s'est produite lors de la vérification de l'état de la session de l'utilisateur"
+    },
+
+
+    "errorGetDataOrUpdateData" : {
+
+        "es" : "Ha ocurrido un error al obtener los datos de tu perfil",
+        "fr" : "Une erreur s'est produite lors de l'obtention de vos données de profil",
+        "en" : "An error occurred while obtaining your profile data"
+    },
+
+    "textReloadButton" : {
+
+        "es" : "reintentar",
+        "en" : "reload",
+        "fr" : "recommencez"
+    }
+}

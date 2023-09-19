@@ -16,7 +16,7 @@
         "en": "The password field is empty"
     },
 
-    "errorEmailOrUsername": {
+    "errorEmailOrPassword": {
         "es": "Email o contraseña incorrectos",
         "fr": "Mauvais email ou mot de passe",
         "en": "Wrong email or password"

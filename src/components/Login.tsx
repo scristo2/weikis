@@ -6,6 +6,9 @@ import translateLoginError from "../../public/lang/home/login/errorLoginText.jso
 import { emailFormat } from "@/lib/patterns";
 import _fetch from "isomorphic-fetch";
 import { useRouter } from "next/router";
+import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { auth } from "@/lib/firebaseConfig";
+
 
 interface LoginProps {
 
@@ -23,6 +26,9 @@ const Login: NextPage<LoginProps> = (props) => {
     const [visibleErrorMessage, setVisibleErrorMessage] = useState<boolean>(false);
     const [textErrorMessage, setTextErrorMessage] = useState<string>("");
 
+
+
+
     const handleCheckBoxChange = () => {
 
         setCheckedKeepSession(!checkedKeepSession);
@@ -36,82 +42,42 @@ const Login: NextPage<LoginProps> = (props) => {
         setIsLoading(true);
         setVisibleErrorMessage(false);
 
-        try {
+        if (!emailFormat(emailOrUsername)) {
+            {/*@ts-ignore*/ }
+            setTextErrorMessage(translateLoginError.invalidEmailFormat[props.locale]);
+            setVisibleErrorMessage(true);
+            setIsLoading(false);
+            return;
+        }
 
-            if (emailOrUsername.length < 1) {
-                throw Error("email empty");
-            }
+        if (password.length < 1) {
 
-            if (password.length < 1) {
+            {/*@ts-ignore*/ }
+            setTextErrorMessage(translateLoginError.passwordEmpty[props.locale]);
+            setVisibleErrorMessage(true);
+            setIsLoading(false);
+            return;
+        }
 
-                throw Error("password empty")
-            }
-
-            if (!emailFormat(emailOrUsername)) {
-
-                throw Error("email invalid");
-            }
-            
-
-
-
-            const res = await _fetch("/api/login/login", {
-
-                method: "POST",
-                body: JSON.stringify({ email : emailOrUsername, password : password, checkedsession : checkedKeepSession }),
-                headers: {
-
-                    'Content-Type': 'application/json'
+        await signInWithEmailAndPassword(auth, emailOrUsername, password)
+            .then((value: UserCredential) => {
+                router.push("/account/profile", "/account/profile", {locale : props.locale})
+            })
+            .catch((e) => {
+                setVisibleErrorMessage(true);
+                if (e?.message.toString().includes("not-found")) {
+                    {/*@ts-ignore*/ }
+                    setTextErrorMessage(translateLoginError.errorEmailOrPassword[props.locale]);
                 }
 
-            });
+                setTextErrorMessage(e?.message);
+            }).finally(() => {
 
+                setIsLoading(false);
+            })
 
+        return;
 
-            if (res.ok) {
-
-                const data = await res.json()
-                    .then((result: { status: string, messageError: string, message : [] }) => result);
-
-                console.log(data);
-
-            } else {
-
-                throw Error(res.status.toString());
-            }
-
-
-
-        } catch (e: any) {
-
-            setVisibleErrorMessage(true);
-
-            switch (e.toString()) {
-
-                case "Error: email empty":
-                    {/*@ts-ignore*/ }
-                    setTextErrorMessage(translateLoginError.emailEmpty[props.locale])
-                    break;
-                case "Error: password empty":
-                    {/*@ts-ignore*/ }
-                    setTextErrorMessage(translateLoginError.passwordEmpty[props.locale])
-                    break;
-
-                case "Error: email invalid":
-                    {/*@ts-ignore*/ }
-                    setTextErrorMessage(translateLoginError.invalidEmailFormat[props.locale])
-                    break;
-
-
-                default:
-                    setTextErrorMessage( e?.message);
-                    break;
-            }
-
-        } finally {
-
-            setIsLoading(false);
-        }
     }
 
 

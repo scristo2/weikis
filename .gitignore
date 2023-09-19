@@ -1,4 +1,12 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Compiled JavaScript files
+lib/**/*.js
+lib/**/*.js.map
+
+# TypeScript v1 declaration files
+typings/
+
+# Node.js dependency directory
+node_modules/
 
 # dependencies
 /node_modules
@@ -32,4 +40,18 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
 next-env.d.ts
+
+*.txt
+*.log
+/saved-data
+*.rules
+*.template.json
+*.rules.json
+/functions
+/extensions
+.firebaserc
+firebase.json
+firestore.indexes.json
+/firebase-export*/

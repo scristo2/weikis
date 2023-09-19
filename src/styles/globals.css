@@ -1,4 +1,19 @@
-*{
+* {
     padding: 0;
     margin: 0;
 }
+
+
+.firebase-emulator-warning {
+
+    display: none !important;
+}
+
+i.google-play {
+    background-color: #4CAF50; /* Color verde de Google Play Store */
+    color: #fff; /* Texto en blanco para contraste */
+    padding: 4px 8px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+  }
+
+
